@@ -1,0 +1,53 @@
+package lifemanagement;
+
+import javax.swing.*;
+import java.awt.*;
+
+public class MyTrackersForm {
+    private JPanel mainPanel;
+    private JButton sleepButton;
+    private JButton calendarButton;
+    private JButton moodButton;
+    private JButton studyButton;
+    private JButton nazadButton;
+    private JLabel naslov;
+
+    private Korisnik korisnik;
+
+    public MyTrackersForm(Korisnik korisnik) {
+        this.korisnik = korisnik;
+
+        naslov.setText("My Trackers");
+
+        sleepButton.addActionListener(e -> {
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+            frame.setContentPane(new SleepTrackerForm(korisnik).getMainPanel());
+            frame.revalidate();
+        });
+
+        studyButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(null,
+                        "Study Tracker")
+        );
+
+        moodButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(null,
+                        "Mood Tracker")
+        );
+
+        calendarButton.addActionListener(e ->
+                JOptionPane.showMessageDialog(null,
+                        "Calendar Tracker")
+        );
+
+        nazadButton.addActionListener(e -> {
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+            frame.setContentPane(new MainMenuForm(korisnik).getMainPanel());
+            frame.revalidate();
+        });
+    }
+
+    public JPanel getMainPanel() {
+        return mainPanel;
+    }
+}
