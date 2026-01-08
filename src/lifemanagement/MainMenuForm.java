@@ -29,7 +29,7 @@ public class MainMenuForm {
 
         financeButton.addActionListener(e -> {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
-            frame.setContentPane(new FinanceTrackerForm().getMainPanel());
+            frame.setContentPane(new FinanceTrackerForm(korisnik).getMainPanel());
             frame.revalidate();
         });
 

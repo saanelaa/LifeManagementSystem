@@ -1,5 +1,9 @@
 package financeapp;
 
+import lifemanagement.Korisnik;
+import lifemanagement.MainMenuForm;
+import lifemanagement.UIStyle;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.JTableHeader;
@@ -19,12 +23,23 @@ public class FinanceTrackerForm {
     private JLabel iznos;
     private JLabel opis;
     private JScrollPane scrollPane;
+    private JButton nazadButton;
+
     private TransactionManager manager;
     private DefaultTableModel tableModel;
+    private Korisnik korisnik;
 
-    public FinanceTrackerForm() {
+    public FinanceTrackerForm(Korisnik korisnik) {
+        this.korisnik = korisnik;
 
         manager = new TransactionManager();
+
+        mainPanel.setBackground(UIStyle.CURRENT_BACKGROUND);
+
+        UIStyle.styleTextField(amountField);
+        UIStyle.styleTextField(descriptionField);
+        UIStyle.styleButton(nazadButton);
+        UIStyle.styleButton(addButton);
 
         tableModel = new DefaultTableModel(
                 new Object[]{"Vrsta", "Iznos", "Opis"}, 0
@@ -40,11 +55,6 @@ public class FinanceTrackerForm {
         Color TEXT_DARK    = new Color(70, 70, 70);    // tekst
         Color HEADER_BG    = new Color(232, 228, 218); // header tabele
 
-        mainPanel.setBackground(BG_MAIN);
-
-        amountField.setBackground(BG_FIELD);
-        descriptionField.setBackground(BG_FIELD);
-
         amountField.setForeground(TEXT_DARK);
         descriptionField.setForeground(TEXT_DARK);
 
@@ -56,7 +66,6 @@ public class FinanceTrackerForm {
         typeCombo.setOpaque(true);
         typeCombo.setBorder(BorderFactory.createLineBorder(BORDER_SOFT));
 
-        addButton.setBackground(GREEN_BTN);
         addButton.setForeground(Color.WHITE);
         addButton.setFocusPainted(false);
         addButton.setBorderPainted(false);
@@ -112,6 +121,12 @@ public class FinanceTrackerForm {
         updateSummary();
 
         addButton.addActionListener(e -> addTransaction());
+
+        nazadButton.addActionListener(e -> {
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+            frame.setContentPane(new MainMenuForm(korisnik).getMainPanel());
+            frame.revalidate();
+        });
     }
 
     private void addTransaction() {
@@ -174,6 +189,7 @@ public class FinanceTrackerForm {
         expenseLabel.setText("Rashod: " + expense);
         balanceLabel.setText("Saldo: " + balance);
     }
+
 
     public JPanel getMainPanel() {
         return mainPanel;
