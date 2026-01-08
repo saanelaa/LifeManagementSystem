@@ -1,7 +1,6 @@
 package lifemanagement;
 
 import javax.swing.*;
-import java.awt.*;
 
 public class MyTrackersForm {
     private JPanel mainPanel;
@@ -45,10 +44,11 @@ public class MyTrackersForm {
             frame.revalidate();
         });
 
-        calendarButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(null,
-                        "Calendar Tracker")
-        );
+        calendarButton.addActionListener(e -> {
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+            frame.setContentPane(new KalendarTrackerForm(korisnik).getMainPanel());
+            frame.revalidate();
+        });
 
         nazadButton.addActionListener(e -> {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
