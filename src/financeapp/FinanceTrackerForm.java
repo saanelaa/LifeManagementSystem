@@ -120,8 +120,6 @@ public class FinanceTrackerForm {
         loadDataIntoTable();
         updateSummary();
 
-        addButton.addActionListener(e -> addTransaction());
-
         nazadButton.addActionListener(e -> {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
             frame.setContentPane(new MainMenuForm(korisnik).getMainPanel());
@@ -132,31 +130,17 @@ public class FinanceTrackerForm {
     private void addTransaction() {
 
         String rawText = amountField.getText();
+        double amount = 0;
 
-        double amount;
         try {
             amount = Double.parseDouble(rawText.trim().replace(",", "."));
-        } catch (NumberFormatException ex) {
-            JOptionPane.showMessageDialog(mainPanel,
-                    "Iznos mora biti broj");
-            return;
-        }
+        } catch (Exception ignored) { }
 
         String type = (String) typeCombo.getSelectedItem();
-        if (type == null || type.equals("Odaberite")) {
-            JOptionPane.showMessageDialog(mainPanel,
-                    "Odaberite tip transakcije");
-            return;
-        }
 
         String description = descriptionField.getText();
-        if (description == null || description.trim().isEmpty()) {
-            JOptionPane.showMessageDialog(mainPanel,
-                    "Opis ne može biti prazan");
-            return;
-        }
 
-        manager.addTransaction(new Transaction(type, amount, description));
+        manager.addTransaction(new Transaction(korisnik.getUsername(), type, amount, description));
 
         loadDataIntoTable();
         updateSummary();
@@ -167,7 +151,7 @@ public class FinanceTrackerForm {
 
     private void loadDataIntoTable() {
 
-        List<Transaction> list = manager.getAllTransactions();
+        List<Transaction> list = manager.getTransactionsForUser(korisnik.getUsername());
 
         tableModel.setRowCount(0);
 
@@ -181,8 +165,8 @@ public class FinanceTrackerForm {
     }
 
     private void updateSummary() {
-        double income = manager.getTotalIncome();
-        double expense = manager.getTotalExpense();
+        double income = manager.getTotalIncome(korisnik.getUsername());
+        double expense = manager.getTotalExpense(korisnik.getUsername());
         double balance = income - expense;
 
         incomeLabel.setText("Prihod: " + income);
@@ -194,5 +178,4 @@ public class FinanceTrackerForm {
     public JPanel getMainPanel() {
         return mainPanel;
     }
-
 }

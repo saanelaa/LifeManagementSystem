@@ -14,6 +14,7 @@ public class KalendarTrackerForm {
     private JComboBox tipCombo;
     private JButton spremiButton;
     private JButton nazadButton;
+    private JLabel datum;
 
     private Korisnik korisnik;
     private KalendarManager manager;

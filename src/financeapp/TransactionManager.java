@@ -10,6 +10,7 @@ import java.util.ArrayList;
 public class TransactionManager {
 
     private final MongoCollection<Document> collection;
+
     public TransactionManager() {
         MongoDatabase db = MongoDBConnection.getDatabase();
         if (db == null) {
@@ -29,13 +30,15 @@ public class TransactionManager {
 
     public void addTransaction(Transaction t) {
         collection.insertOne(t.toDocument());
-
-
     }
 
-    public ArrayList<Transaction> getAllTransactions() {
+    public ArrayList<Transaction> getTransactionsForUser(String username) {
+
         ArrayList<Transaction> list = new ArrayList<>();
-        MongoCursor<Document> cursor = collection.find().iterator();
+
+        MongoCursor<Document> cursor =
+                collection.find(new Document("username", username)).iterator();
+
         while (cursor.hasNext()) {
             Document d = cursor.next();
             String type = d.getString("Type");
@@ -44,18 +47,20 @@ public class TransactionManager {
             Double amountObj = d.getDouble("Amount");
             double amount = amountObj != null ? amountObj : 0.0;
 
-            if (type == null) {
-                System.out.println("Preskačem dokument bez type: " + d);
-                continue;
-            }
+            if (type == null) continue;
 
-            list.add(new Transaction(type, amount, description));
+            list.add(new Transaction(
+                    username,
+                    type,
+                    amount,
+                    description
+            ));
         }
         return list;
     }
-    public double getTotalIncome() {
+    public double getTotalIncome(String username) {
         double total = 0;
-        for (Transaction t : getAllTransactions()) {
+        for (Transaction t : getTransactionsForUser(username)) {
             if ("Prihod".equalsIgnoreCase(t.getType())) {
                 total += t.getAmount();
             }
@@ -63,9 +68,9 @@ public class TransactionManager {
         return total;
     }
 
-    public double getTotalExpense() {
+    public double getTotalExpense(String username) {
         double total = 0;
-        for (Transaction t : getAllTransactions()) {
+        for (Transaction t : getTransactionsForUser(username)) {
             if ("Rashod".equalsIgnoreCase(t.getType())) {
                 total += t.getAmount();
             }

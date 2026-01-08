@@ -33,4 +33,17 @@ public class MoodManager {
 
         return list;
     }
+
+    public double getProsjekMooda(String username) {
+
+        double sum = 0;
+        int count = 0;
+        for (MoodUnos m : getUnosiZaKorisnika(username)) {
+            sum += m.getMood();
+            count++;
+        }
+        if (count == 0) return 0;
+
+        return sum / count;
+    }
 }

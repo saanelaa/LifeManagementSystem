@@ -10,7 +10,7 @@
     <children>
       <component id="64478" class="javax.swing.JLabel" binding="naslov">
         <constraints>
-          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+          <grid row="0" column="0" row-span="1" col-span="2" vsize-policy="0" hsize-policy="0" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
         </constraints>
         <properties>
           <font name="DialogInput" size="28"/>
@@ -88,6 +88,15 @@
         <properties>
           <font name="DialogInput" size="16"/>
           <text value="Nazad"/>
+        </properties>
+      </component>
+      <component id="e0e5c" class="javax.swing.JProgressBar" binding="moodProgress">
+        <constraints>
+          <grid row="6" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <maximum value="5"/>
+          <stringPainted value="true"/>
         </properties>
       </component>
     </children>

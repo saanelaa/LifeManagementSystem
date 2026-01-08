@@ -2,6 +2,7 @@ package lifemanagement;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.awt.*;
 import java.util.List;
 
 public class MoodTrackerForm {
@@ -15,6 +16,7 @@ public class MoodTrackerForm {
     private JScrollPane scrollPane;
     private JTable moodTable;
     private JButton nazadButton;
+    private JProgressBar moodProgress;
 
     private Korisnik korisnik;
     private MoodManager manager;
@@ -30,6 +32,8 @@ public class MoodTrackerForm {
         UIStyle.styleButton(spremiButton);
         UIStyle.styleButton(nazadButton);
         UIStyle.styleComboBox(moodCombo);
+
+        naslov.setText("Mood tracker");
 
         tableModel = new DefaultTableModel(
                 new Object[]{"Datum", "Raspoloženje"}, 0
@@ -78,6 +82,17 @@ public class MoodTrackerForm {
                     m.getDatum(),
                     m.getMood()
             });
+        }
+        double prosjek = manager.getProsjekMooda(korisnik.getUsername());
+
+        moodProgress.setValue((int) Math.round(prosjek));
+        moodProgress.setString("Prosjek raspoloženja: " + String.format("%.1f", prosjek));
+        if (prosjek <= 2) {
+            moodProgress.setForeground(new Color(220, 120, 120));
+        } else if (prosjek <= 3) {
+            moodProgress.setForeground(new Color(230, 200, 120));
+        } else {
+            moodProgress.setForeground(new Color(120, 200, 150));
         }
     }
 
