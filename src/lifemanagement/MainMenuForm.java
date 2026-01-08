@@ -1,7 +1,6 @@
 package lifemanagement;
 
 import financeapp.FinanceTrackerForm;
-
 import javax.swing.*;
 
 public class MainMenuForm {
@@ -17,7 +16,16 @@ public class MainMenuForm {
     public MainMenuForm(Korisnik korisnik) {
         this.korisnik = korisnik;
 
-        poruka.setText("Dobrodošli, " + korisnik.getUsername() + " uživajte u korištenju sistema!");
+        UIStyle.applyTheme(korisnik.getTheme());
+
+        mainPanel.setBackground(UIStyle.CURRENT_BACKGROUND);
+
+        UIStyle.styleButton(profileButton);
+        UIStyle.styleButton(financeButton);
+        UIStyle.styleButton(trackersButton);
+        UIStyle.styleButton(logoutButton);
+
+        poruka.setText("Dobrodošli " + korisnik.getUsername() + ", uživajte u korištenju sistema!");
 
         financeButton.addActionListener(e -> {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
@@ -34,6 +42,12 @@ public class MainMenuForm {
         logoutButton.addActionListener(e -> {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
             frame.setContentPane(new LoginForm().getMainPanel());
+            frame.revalidate();
+        });
+
+        profileButton.addActionListener(e -> {
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+            frame.setContentPane(new ProfileForm(korisnik).getMainPanel());
             frame.revalidate();
         });
     }

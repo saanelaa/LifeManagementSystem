@@ -17,6 +17,14 @@ public class MyTrackersForm {
     public MyTrackersForm(Korisnik korisnik) {
         this.korisnik = korisnik;
 
+        mainPanel.setBackground(UIStyle.CURRENT_BACKGROUND);
+
+        UIStyle.styleButton(sleepButton);
+        UIStyle.styleButton(calendarButton);
+        UIStyle.styleButton(moodButton);
+        UIStyle.styleButton(studyButton);
+        UIStyle.styleButton(nazadButton);
+
         naslov.setText("My Trackers");
 
         sleepButton.addActionListener(e -> {
@@ -25,15 +33,17 @@ public class MyTrackersForm {
             frame.revalidate();
         });
 
-        studyButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(null,
-                        "Study Tracker")
-        );
+        studyButton.addActionListener(e -> {
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+            frame.setContentPane(new StudyTrackerForm(korisnik).getMainPanel());
+            frame.revalidate();
+        });
 
-        moodButton.addActionListener(e ->
-                JOptionPane.showMessageDialog(null,
-                        "Mood Tracker")
-        );
+        moodButton.addActionListener(e -> {
+            JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
+            frame.setContentPane(new MoodTrackerForm(korisnik).getMainPanel());
+            frame.revalidate();
+        });
 
         calendarButton.addActionListener(e ->
                 JOptionPane.showMessageDialog(null,

@@ -6,15 +6,24 @@ public class RegisterForm {
     private JPanel mainPanel;
     private JTextField usernameField;
     private JPasswordField passwordField;
-    private JComboBox themeCombo;
+    private JComboBox<String> themeCombo;
     private JButton registerButton;
     private JButton nazadButton;
     private JLabel naslov;
+    private JLabel ime;
+    private JLabel password;
 
     private KorisnikManager korisnikManager;
 
     public RegisterForm() {
         korisnikManager = new KorisnikManager();
+
+        mainPanel.setBackground(UIStyle.CURRENT_BACKGROUND);
+        UIStyle.styleTextField(usernameField);
+        UIStyle.styleTextField(passwordField);
+        UIStyle.styleButton(registerButton);
+        UIStyle.styleButton(nazadButton);
+        UIStyle.styleComboBox(themeCombo);
 
         registerButton.addActionListener(e -> {
             String username = usernameField.getText();

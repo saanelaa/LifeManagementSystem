@@ -5,15 +5,18 @@ import org.bson.Document;
 public class StudyUnos {
     private String username;
     private double sati;
+    private String datum;
 
-    public StudyUnos(String username, double sati) {
+    public StudyUnos(String username, double sati, String datum) {
         this.username = username;
         this.sati = sati;
+        this.datum = datum;
     }
 
     public Document toDocument() {
         return new Document("username", username)
-                .append("sati", sati);
+                .append("sati", sati)
+                .append(("datum"), datum);
     }
 
     public String getUsername() {
@@ -22,5 +25,9 @@ public class StudyUnos {
 
     public double getSati() {
         return sati;
+    }
+
+    public String getDatum(){
+        return datum;
     }
 }

@@ -4,44 +4,44 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
 
-public class SleepTrackerForm {
+public class StudyTrackerForm {
     private JPanel mainPanel;
     private JTextField hoursField;
-    private JButton spremiButton;
-    private JTable sleepTable;
     private JScrollPane scrollPane;
-    private JButton nazadButton;
+    private JTable studyTable;
+    private JButton spremiButton;
     private JLabel naslov;
     private JLabel averageLabel;
-    private JTextField datumField;
-    private JLabel sleep;
+    private JButton nazadButton;
+    private JLabel study;
     private JLabel datum;
+    private JTextField datumField;
 
     private Korisnik korisnik;
-    private SleepManager manager;
+    private StudyManager manager;
     private DefaultTableModel tableModel;
 
-    public SleepTrackerForm(Korisnik korisnik) {
+    public StudyTrackerForm(Korisnik korisnik) {
         this.korisnik = korisnik;
-        manager = new SleepManager();
+        manager = new StudyManager();
 
         mainPanel.setBackground(UIStyle.CURRENT_BACKGROUND);
 
-        UIStyle.styleTextField(hoursField);
         UIStyle.styleTextField(datumField);
+        UIStyle.styleTextField(hoursField);
         UIStyle.styleButton(spremiButton);
         UIStyle.styleButton(nazadButton);
 
-        naslov.setText("Sleep Tracker");
+        naslov.setText("Study Tracker");
 
         tableModel = new DefaultTableModel(
-                new Object[]{"Datum","Sati spavanja:"}, 0
+                new Object[]{"Datum", "Sati učenja"}, 0
         );
-        sleepTable.setModel(tableModel);
+        studyTable.setModel(tableModel);
 
         loadData();
 
-        spremiButton.addActionListener(e -> saveSleep());
+        spremiButton.addActionListener(e -> saveStudy());
 
         nazadButton.addActionListener(e -> {
             JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
@@ -50,49 +50,42 @@ public class SleepTrackerForm {
         });
     }
 
-    private void saveSleep() {
+    private void saveStudy() {
+        String datum = datumField.getText();
         double sati;
         try {
             sati = Double.parseDouble(hoursField.getText());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(mainPanel,
-                    "Unesite broj sati spavanja!");
+                    "Unesite broj sati učenja!");
             return;
         }
-
-        String datum = datumField.getText();
-
-        if (datum == null || datum.trim().isEmpty()) {
+        if (datum.isEmpty()) {
             JOptionPane.showMessageDialog(mainPanel,
                     "Unesite datum!");
             return;
         }
 
-        manager.addUnos(new SleepUnos(
+        manager.addUnos(new StudyUnos(
                 korisnik.getUsername(), sati, datum
         ));
 
-        hoursField.setText("");
         datumField.setText("");
+        hoursField.setText("");
         loadData();
     }
 
     private void loadData() {
-
-        List<SleepUnos> list =
+        List<StudyUnos> list =
                 manager.getUnosiZaKorisnika(korisnik.getUsername());
 
         tableModel.setRowCount(0);
-
-        for (SleepUnos u : list) {
-            tableModel.addRow(new Object[]{
-                    u.getDatum(),
-                    u.getSati()
-            });
+        for (StudyUnos u : list) {
+            tableModel.addRow(new Object[]{u.getDatum(),u.getSati()});
         }
 
-        double prosjek = manager.getProsjekSpavanja(korisnik.getUsername());
-        averageLabel.setText("Prosječno spavanje: " + prosjek + " h");
+        double prosjek = manager.getProsjekUcenja(korisnik.getUsername());
+        averageLabel.setText("Prosječno učenje: " + prosjek + " h");
     }
 
     public JPanel getMainPanel() {

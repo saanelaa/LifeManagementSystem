@@ -41,4 +41,15 @@ public class KorisnikManager {
                 doc.getString("theme")
         );
     }
+
+    public void updateKorisnik(Korisnik korisnik) {
+
+        usersCollection.updateOne(
+                new Document("username", korisnik.getUsername()),
+                new Document("$set", new Document()
+                        .append("password", korisnik.getPassword())
+                        .append("theme", korisnik.getTheme())
+                )
+        );
+    }
 }

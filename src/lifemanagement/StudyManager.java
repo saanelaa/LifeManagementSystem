@@ -24,7 +24,8 @@ public class StudyManager {
         for (Document d : collection.find(new Document("username", username))) {
             list.add(new StudyUnos(
                     d.getString("username"),
-                    d.getDouble("sati")
+                    d.getDouble("sati"),
+                    d.getString("datum")
             ));
         }
         return list;

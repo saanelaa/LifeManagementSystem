@@ -9,10 +9,20 @@ public class LoginForm {
     private JButton loginButton;
     private JButton registerButton;
     private JLabel naslov;
+    private JLabel informacija;
+    private JLabel ime;
+    private JLabel password;
 
     private KorisnikManager korisnikManager;
 
     public LoginForm() {
+        mainPanel.setBackground(UIStyle.CURRENT_BACKGROUND);
+        naslov.setText("Life Management System");
+        UIStyle.styleTextField(usernameField);
+        UIStyle.styleTextField(passwordField);
+        UIStyle.styleButton(loginButton);
+        UIStyle.styleButton(registerButton);
+
         korisnikManager = new KorisnikManager();
 
         loginButton.addActionListener(e -> {
@@ -31,6 +41,7 @@ public class LoginForm {
                 JOptionPane.showMessageDialog(null,
                         "Pogrešno korisničko ime ili lozinka!");
             } else {
+                UIStyle.applyTheme(korisnik.getTheme());
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(mainPanel);
                 frame.setContentPane(new MainMenuForm(korisnik).getMainPanel());
                 frame.revalidate();
