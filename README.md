@@ -33,11 +33,11 @@ mongodb://localhost:27017
 - Svaki korisnik ima vlastite podatke
 - Podaci su vezani za korisničko ime
 
-## Personalizacija (Theme)
+## Personalizacija (Teme)
 - Korisnik bira temu (boju pozadine)
 - Tema se primjenjuje nakon prijave
 - Promjena teme i korisničkog imena zahtijeva unos lozinke
-- 
+  
 ## Trackeri
 
 ### Finance Tracker
